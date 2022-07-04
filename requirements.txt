@@ -7,25 +7,9 @@ plotly.express
 streamlit
 streamlit_option_menu
 
-train_test_split
-StandardScaler
-LogisticRegression
-KNeighborsClassifier
-RandomForestClassifier
-GridSearchCV
-SVC
-DecisionTreeClassifier
-GradientBoostingClassifier
-
-plot_confusion_matrix
-plot_roc_curve
-plot_precision_recall_curve
-classification_report
-confusion_matrix
-precision_score
-recall_score
-f1_score
-classification_report_imbalanced
+sklearn
+imblearn
+time
 glob
 
 
