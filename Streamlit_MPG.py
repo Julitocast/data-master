@@ -185,7 +185,7 @@ elif choice == "Dataset":
             st.markdown("* MPG_2 : Export brut via copier_coller depuis MPGstats. Données nécessitant des retraitements car informations  certes disponibles pour chaque match, mais codifiées via l’emploi de certaines chaînes de caractères spéciaux.")
             st.markdown("* Calendrier : Export via Datamining simplifié (Interface Power query) sur un site de résultats sportifs (https://www.maxifoot.fr/) ")
             
-            st.image("media/Sources_MPG.png")
+            st.image("media/Sources_MPG.PNG")
             st.markdown("*  Travail individuel de chacun des fichiers")
             st.write("Pour chacune des sources, les notions importantes permettant des rapprochement ont été identifiées.\
                      Via les concepts de JOUEUR, JOURNEE et d'EQUIPE. \
@@ -693,7 +693,7 @@ elif choice == "Machine learning":
 		st.write("Nous avons choisi de retenir le modèle **SVC** pour la suite des tests, étant celui qui obtenait les meilleurs scores bruts.") 
 		st.write("Voici les différentes étapes suivies pour tenter d'optimiser le modèle retenu :") 
 
-		st.image("media/tableau_features.png")
+		st.image("media/tableau_features.PNG")
 
 		st.markdown("<p style='color: black;'><b>Constats :</b></br>"
 					"<ol><li>Le modèle 'brut' conserve le meilleur score d'accuracy</li>"
