@@ -4,3 +4,4 @@ matplotlib
 seaborn
 plotly
 streamlit_option_menu
+train_test_split
