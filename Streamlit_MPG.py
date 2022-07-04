@@ -41,6 +41,14 @@ l=glob.glob("media/maillots/*.png")
 path_maillots="media/maillots/"
 
 ##########################
+# Config favicon and title page
+
+st.set_page_config(
+        page_title="Py Best Team",
+        page_icon="⚽",
+        layout="centered",
+    )
+##########################
 
 header = st.container()
 intro = st.container()
