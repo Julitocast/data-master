@@ -176,7 +176,7 @@ elif choice == "Dataset":
 
             st.markdown("##### Voici un aperçu des traitements effectués :")
 
-            st.image("media/Sources_MPG.png")
+            st.image("media/Sources_MPG.PNG")
 
             
             st.write("Pour chacune des sources, les notions importantes permettant des rapprochement ont été identifiées : via les concepts de JOUEUR, JOURNEE et d'EQUIPE. Au niveau des informations collectées, nous avons cherché à déterminer le contexte des notes MPG au niveau de l'équipe et du joueur, ainsi que des métriques MPG comme le nombre de buts, la côte du joueur ou la note donnée par MPG.")
