@@ -66,23 +66,6 @@ df_ml = pd.read_csv('data/MPG_df_final_ML.csv', sep=',', index_col='Unnamed: 0')
 df_00      = df[df['Note'] != 0].sort_values('Journée', ascending=True) # DF global sans les notes moyennes à 0 (joueurs qui ne jouent jamais)
 df_00_jour = df[df['Note_Jour_Next']!=0].sort_values('Journée', ascending=True) # DF sans les notes journées à 0
 
-# Sidebar menu
-
-# navigation = ["Dataset", "Dataviz", "Machine learning"]
-# choice = st.sidebar.selectbox("Navigation", navigation)
-
-# Autre sidebar
-
-# with st.sidebar:
-# 	choice = option_menu(menu_title = "Navigation",
-# 						options = ["Intro", "Dataset", "Dataviz", "Machine learning", "Tests réels"],
-# 						icons = ["caret-right-square-fill", "server", "file-bar-graph-fill", "fan", "trophy-fill"],
-# 						menu_icon = "bookmark-star",
-# 						default_index = 0,
-# 						)
-
-
-
 ################################################################################################################################################################################################################################
 ################################################################################################################################################################################################################################
 
@@ -133,12 +116,12 @@ if choice == "Intro":
 		    st.write("")
 		with col2:
 		    st.image('media/maillot_benard.png')
-		    st.markdown("<p style='text-align: center; color: black;'>Gayelord BENARD</p>", unsafe_allow_html=True)
+		    st.write("[Gayelord BENARD](https://www.linkedin.com/in/gayelord-benard-86918b71/)")
 		with col3:
 		    st.write("")
 		with col4:
 		    st.image("media/maillot_castel.png")
-		    st.markdown("<p style='text-align: center; color: black;'>Julien CASTEL</p>", unsafe_allow_html=True)
+		    st.write("[Julien CASTEL](https://www.linkedin.com/in/casteljulien/)")
 		with col5:
 		    st.write("")
 
