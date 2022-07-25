@@ -144,53 +144,53 @@ elif choice == "Dataset":
 	with dataset:
             st.header('1/ Récupération et préparation des données')
   
-            st.markdown("*  **Problématique** / _Objectif_")
+            st.markdown("#### :black_medium_small_square: Quel est l'objectif de cette partie ?")
               
             
-            st.write("L’objectif principal est de proposer aux joueurs du jeu MonPetitGazon (MPG [link](https://mpg.football/)),\
-                     des outils leur permettant de mieux analyser les performances des joueurs de Ligue1,\
-                    dans le but de créer la meilleure composition d’équipe possible pour le prochain match.\
-                    \n \
-                    S’agissant d’un jeu thématique reposant sur des résultats réels (le jeu est basé sur les résultats des matchs) \
-                    déterminer les sources utiles et accéder à ces données représentent la première étape du projet.  ")  
+            st.write("L’objectif principal est de proposer aux joueurs du jeu [MonPetitGazon](https://mpg.football/), des outils leur permettant de mieux analyser les performances des joueurs de Ligue1, dans le but de créer la meilleure composition d’équipe possible pour le prochain match.") 
+            st.write("S’agissant d’un jeu thématique reposant sur des résultats réels (le jeu est basé sur les résultats des matchs à l'issue des journées de championnat), **_déterminer les sources utiles et accéder à ces données_** représentent la première étape du projet.")  
   
-            st.markdown("*  Découverte du contexte") 
+            st.markdown("#### :black_medium_small_square: Découverte du contexte") 
             
-            Link="Afin de mieux cerner notre sujet\
-                     nous avons procédé à quelques recherches et prises de contact\
-                    via le réseau d'alumni (Paul-André Woisard ayant rédigé un article sur le sujet.)\
-                    \n \
-                    Consulter l'article>> [link](https://datascientest.com/mpg-le-foot-dans-toute-sa-data)"
-            st.markdown(Link,unsafe_allow_html=True)           
+            st.write("Afin de mieux cerner notre sujet, nous avons procédé à quelques recherches et prises de contact via le réseau d'alumni de DataScientest. Nous avons pu notamment interviewé Paul-André Woisard, qui avait rédigé un [article](https://datascientest.com/mpg-le-foot-dans-toute-sa-data) sur le sujet.")         
                         
-            st.write ("Nous avons aussi contacter l'équipe de MPG Stats, principale source d'information grand public sur l'univers de MPG.")
-            link='Aller sur MPG Stats >> [link](https://www.mpgstats.fr/)'
-            st.markdown(link,unsafe_allow_html=True)
-            
-            st.markdown("*  Sources de données utilisées")
-            st.write("On distingue 2 types de sources d’informations, celles directement issue du jeu , via MPGstats (https://www.mpgstats.fr/) \
-                     et celles venant du contexte thématique , en l'occurrence les résultats des matchs, mesurés via les classements, résumé des matchs, statistiques collectées durant la partie, fiche de club,...)")
-            st.write("Nous avons opté pour des données exclusivement gratuites et qui auraient été facilement accessibles à un utilisateur de MPG.")
-            
-            st.markdown("* MPG_1 : Export simplifié sous format excel via MPGstats. Données ne nécessitant que très peu de retraitement mais usage limité car il est impossible d’en retirer les informations pour chaque match") 
-            st.markdown("* MPG_2 : Export brut via copier_coller depuis MPGstats. Données nécessitant des retraitements car informations  certes disponibles pour chaque match, mais codifiées via l’emploi de certaines chaînes de caractères spéciaux.")
-            st.markdown("* Calendrier : Export via Datamining simplifié (Interface Power query) sur un site de résultats sportifs (https://www.maxifoot.fr/) ")
-            
-            st.image("media/Sources_MPG.PNG")
-            st.markdown("*  Travail individuel de chacun des fichiers")
-            st.write("Pour chacune des sources, les notions importantes permettant des rapprochement ont été identifiées.\
-                     Via les concepts de JOUEUR, JOURNEE et d'EQUIPE. \
-                     Au niveau des informations collectées, nous avons cherché à déterminer le contexte des notes MPG au niveau de l'équipe et du joueur, \
-                     ainsi que des métriques MPG comme le nombre de But, la côte du joueur ou la note MPG.")
-            st.markdown("*  Mutualisation et préparation du dataframe final")
-            st.write("MPG_1 : Export initial propre, retirer les colonnes inutiles (non porteuses d’information exploitables pour la suite du projet) , préparation des variables pour rapprocher (“merger”) les sources.")
-            st.write("MPG_2 : Export brut, retirer les colonnes inutiles (colonnes redondantes avec MPG_1), \
-                     dé-pivoter les colonnes correspondantes aux journées, déduire de l’information claire (Nb de but dans le match,note du jour,  carton, blessure,...) \
-                         à partir d’une information codifiée (“décryptage” de la chaîne de caractères) , préparation des variables pour rapprocher (“merger”) les sources. \
-                             ")
+            st.write ("Nous avons aussi contacter l'équipe de [MPG Stats](https://www.mpgstats.fr/), principale source d'information et de statistiques grand public sur l'univers de MPG.")
 
-            st.write("Calendrier : Retraitement effectué via Powerquery, préparation des variables pour rapprocher (“merger”) les sources. \
-                     ")
+            
+            st.markdown("#### :black_medium_small_square: Sources de données utilisées")
+            st.write("On distingue 2 types de sources d’informations :")
+            st.write("* celles directement issue du jeu , via [MPG Stats](https://www.mpgstats.fr/)")
+            st.write("* celles venant du contexte thématique , en l'occurrence les résultats des matchs, mesurés via les classements, résumés des matchs, statistiques collectées durant la partie, fiche de club,...")
+            st.write("Nous avons opté pour des données exclusivement gratuites et qui auraient été facilement accessibles à un utilisateur de MPG.")
+
+            st.markdown("#### :black_medium_small_square: Travail individuel de chacun des fichiers obtenus")
+            
+            st.markdown("##### 1/ _MPG_1_ : Export csv via la fonctionnalité native du site MPGstats.")
+            st.write("Données ne nécessitant que très peu de retraitement mais usage limité car il est impossible d’en retirer les informations pour chaque match.") 
+
+            st.markdown("##### 2/ _MPG_2_ : Export brut via web scrapping depuis les tableaux du site MPGstats.") 
+            st.write("Données nécessitant des retraitements car informations certes disponibles pour chaque match, mais codifiées via l’emploi de certaines chaînes de caractères spéciaux.")
+
+            st.markdown("##### 3/ _Calendrier_ : Export manuel depuis le site [Maxifoot.fr](https://www.maxifoot.fr/)")
+            st.write("Export via Datamining simplifié (Interface Power query) afin de récupérer les informations de journées à venir, incluant les dates, et les équipes alignées.")
+
+            st.markdown("##### Voici un aperçu des traitements effectués :")
+
+            st.image("media/Sources_MPG.png")
+
+            
+            st.write("Pour chacune des sources, les notions importantes permettant des rapprochement ont été identifiées : via les concepts de JOUEUR, JOURNEE et d'EQUIPE. Au niveau des informations collectées, nous avons cherché à déterminer le contexte des notes MPG au niveau de l'équipe et du joueur, ainsi que des métriques MPG comme le nombre de buts, la côte du joueur ou la note donnée par MPG.")
+
+            st.markdown("#### :black_medium_small_square: Mutualisation et préparation du dataframe final")
+
+            st.markdown("##### 1/ _MPG_1_ :")
+            st.write("Export initial propre, retirer les colonnes inutiles (non porteuses d’information exploitables pour la suite du projet) , préparation des variables pour rapprocher (“merger”) les sources.") 
+
+            st.markdown("##### 2/ _MPG_2_ :") 
+            st.write("Export brut, retirer les colonnes inutiles (colonnes redondantes avec MPG_1), dé-pivoter les colonnes correspondantes aux journées, déduire de l’information claire (nombre de buts dans le match, note du jour, cartons, blessure,...) à partir d’une information codifiée (“décryptage” de la chaîne de caractères), préparation des variables pour rapprocher (“merger”) les sources.")
+
+            st.markdown("##### 3/ _Calendrier_ :")
+            st.write("Retraitement effectué via Powerquery, préparation des variables pour rapprocher (“merger”) les sources.")
 
 
 
