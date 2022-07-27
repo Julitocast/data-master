@@ -753,7 +753,7 @@ elif choice == "Outils MPG":
                      la perspective de ne pas savoir comment exploiter le plein potentiel de son équipe peu devenir un peu frustant. \n \
                     \n Heureusement, on a penser à quelques outils qui pourraient bien te faire expérimenter le meilleur d'une compétition MPG.\
                         \n ")
-            
+            ##############################
             st.markdown("###  Auto-Mercato")
         
         
@@ -953,6 +953,7 @@ elif choice == "Outils MPG":
                 save_selection=pd.DataFrame(my_selection)
                 save_selection.to_csv("media/saved_selection.csv",header=False,index=False)
                 
+                ##############################
                 
                 st.header("Mon Equipe")#paragraphe
                 st.write("On affiche son équipe MPG")
@@ -1195,21 +1196,21 @@ elif choice == "Outils MPG":
                                 st.image(img,caption=label,width=80)
                     
                     
+            ##############################        
                     
-                    
-            st.markdown("###  Loader une équipe")
+            st.markdown("###  Afficher son équipe")
         
         
             #st.header("Charger son équipe")#paragraphe
-            st.write("Tu as déjà une équipe MPG, fait voir à quoi elle ressemble!")          
-            uploaded_file = st.file_uploader("Sélectionne un fichier sur ton ordinateur")
+            st.write("Tu as une équipe MPG, fait voir à quoi elle ressemble!")          
+            uploaded_file=None #uploaded_file = st.file_uploader("Sélectionne un fichier sur ton ordinateur")
             if uploaded_file is  None:
                 my_selection=pd.read_csv('media/saved_selection.csv',header=None)[0].values.tolist()
-                st.write("On part sur la dernière équipe auto-générée, sauf si tu veux en loader une autre?")
+                st.write("On part sur la dernière équipe auto-générée, sauf si tu veux en générer une autre?")
             
             if uploaded_file is not None:
                 my_selection=pd.read_csv(uploaded_file,header=None)[0].values.tolist()
-                st.write("Ok, onn part sur cette liste de joueurs.")
+                st.write("Ok, on part sur cette liste de joueurs.")
                 
             data=df_MPG_Current[['Joueur','Poste_bis','Club','Côte','Enchère moy','Note']]
             data=data.drop_duplicates(keep = 'first')
@@ -1403,6 +1404,7 @@ elif choice == "Outils MPG":
                             label=local_D.iloc[1]
                             st.image(img,caption=label,width=80)
 
+            ##############################
 
             st.markdown("###  Comparer mes joueurs")
             
@@ -1514,7 +1516,8 @@ elif choice == "Outils MPG":
                 plt.show();
                 st.pyplot()
                 
-                
+            ##############################
+            
             st.markdown("###  Comparer les statistiques")
             st.write("Qui a les meilleures stats?")
             
@@ -1578,7 +1581,7 @@ elif choice == "Outils MPG":
                 st.pyplot()
             
             
-            
+            ##############################
             
             st.markdown("###  Retour sur le match précédent")
             st.write("Quelle aurait été la meilleure compo possible ?")
@@ -1718,7 +1721,7 @@ elif choice == "Outils MPG":
                 #st.dataframe(team_11["But/Match Noté"].style.highlight_max())
                 
                 
-            my_expander = st.expander(label="afficher l'équipe?",expanded=True)
+            my_expander = st.expander(label="afficher l'équipe?",expanded=False)
             
             my_selection=team_11['Joueur'].values.tolist()
             data=df_MPG_Current[['Joueur','Poste_bis','Club','Côte','Enchère moy','Note']]
@@ -1897,11 +1900,30 @@ elif choice == "Outils MPG":
                             img=glob.glob(path_maillots+list_club.iloc[1]+".png")
                             label=local_D.iloc[1]
                             st.image(img,caption=label,width=80)
+                            
+            ##############################
             
             st.markdown("###  Préparer mon match")
             st.write("Quelle équipe d'après le modèle prédictif?")
             
-            my_expander_prédictions = st.expander(label="afficher les prédictions pour le prochain match",expanded=True)
+            #Pour influencer la tactique du prochain match, (trier les résultats du modèle prédictif)
+            st.write("Mais d'abord,le projet de jeu du coach")
+            coaching=["Equilibré","Privilégier les Top joueurs (3)","Eviter les rotaldos (0)","Prendre une valise"]
+            coaching_options = st.selectbox(
+                 'Sélectionner le projet de jeu',
+                 coaching)
+            
+            coef_1,coef_2,coef_3,coef_0=1,2,3,-1 #initialiser les différents coefficients
+            if coaching_options=="Privilégier les Top joueurs (3)":
+                coef_1,coef_2,coef_3,coef_0=0,0,1,0
+            elif coaching_options=="Eviter les rotaldos (0)":
+                coef_1,coef_2,coef_3,coef_0=0,0,0,-1
+            elif coaching_options=="Prendre une valise":
+                coef_1,coef_2,coef_3,coef_0=0,0,0,1
+            else :
+                coef_1,coef_2,coef_3,coef_0=1,2,3,-1
+            
+            #my_expander_prédictions = st.expander(label="afficher les prédictions pour le prochain match",expanded=True)
             
             pred1=pd.read_csv('data/Predictions_compo_1.csv')
             proba1=pd.read_csv("data/Probas_compo_1.csv")
@@ -1909,11 +1931,13 @@ elif choice == "Outils MPG":
             pred_proba1=pred_proba1.sort_values('Classe',ascending=False)
             pred_proba1.columns=['Joueur','Classe','0','1','2','3']
             pred_proba1["pred"]=pred_proba1.iloc[:,-4:].idxmax(axis=1).astype(int)
-            pred_proba1["pred_cumul"]=1*pred_proba1["1"]+2*pred_proba1["2"]+3*pred_proba1["3"]-1*pred_proba1["0"]
+            pred_proba1["pred_cumul"]=coef_1*pred_proba1["1"]+coef_2*pred_proba1["2"]+coef_3*pred_proba1["3"]+coef_0*pred_proba1["0"]
+            #pred_proba1["pred_cumul"]=1*pred_proba1["1"]+2*pred_proba1["2"]+3*pred_proba1["3"]-1*pred_proba1["0"]
             pred_proba1=pred_proba1.drop(columns=["pred"])
+            pred_proba1=pred_proba1.sort_values('pred_cumul',ascending=False)
             
             #pred_proba1["pred_cumul"]=1*pred_proba1["Classe 1"]+2*pred_proba1["Classe 2"]+3*pred_proba1["Classe 3"]-1*pred_proba1["Classe 0"]
-            
+            my_expander_prédictions = st.expander(label="afficher les prédictions pour le prochain match",expanded=False)
             
             
             with my_expander_prédictions :
@@ -1921,6 +1945,19 @@ elif choice == "Outils MPG":
             
             nb_G,nb_D,nb_M,nb_A=0,0,0,0 #initialiser les différents compteurs
             nb_team=0
+            
+            
+            st.write("Un schéma préférentiel coach?")
+            philo_jeu=["Oui, j'ai mes habitudes","Non, je m'adapte à l'adversaire"]
+            schema_prefere=st.selectbox("Alors?",philo_jeu)
+            
+            if schema_prefere=="Oui, j'ai mes habitudes":
+                tactique = st.selectbox(
+                'Ok,laquelle?',
+                ('3-4-3','3-5-2','4-3-3', '4-4-2','4-5-1','5-3-2','5-4-1'))
+                #nb_D,nb_M,nb_A=int(tactique[0]),int(tactique[2]),int(tactique[4])
+                #nb_team=10
+                #tactique_D,tactique_M,tactique_A=int(tactique[0]),int(tactique[2]),int(tactique[4])
             
             my_expander_pred1 = st.expander(label="afficher la compo idéale?",expanded=True)
             
@@ -1953,54 +1990,67 @@ elif choice == "Outils MPG":
                 #st.dataframe(data)
                 
                 #méthode itérative pour récupérer les positions 1 à 1 et en déduire le schéma tactique
-                nb_G,nb_D,nb_M,nb_A=0,0,0,0 #initialiser les différents compteurs
-                nb_team=0
-    
-                for p in data["Poste"] :
-                    if nb_team <=8 :
-                        if (p=="D") & (nb_D<5):
-                            nb_D +=1
-                            nb_team +=1
-                        elif (p=="M") & (nb_M<5):
-                            nb_M +=1
-                            nb_team +=1
-                        elif (p=="A") & (nb_A<3):
-                            nb_A +=1
-                            nb_team +=1 
-                            
-                        #print(nb_D,nb_M,nb_A)
-                    elif nb_team <10:
-                        if (nb_D==4) and (nb_M==2):
-                            nb_M +=1
-                            nb_team +=1
-                            
-                        elif (nb_D==2) and (nb_M==5):
-                            nb_D +=1
-                            nb_team +=1
-                        elif (nb_D==2) and (nb_M==4):
-                            nb_D +=1
-                            nb_team +=1
-                        elif (nb_D==3) and (nb_M==3):
-                            nb_D +=1
-                            nb_team +=1
-                        elif (nb_D==5) and (nb_M==2):
-                            nb_M +=1
-                            nb_team +=1
-                        elif (nb_D==4) and (nb_M==4):
-                            nb_A +=1
-                            nb_team +=1
-                        elif (nb_D==3) and (nb_M==4):
-                            nb_D +=1
-                            nb_team +=1    
-                        elif (nb_D==5) and (nb_M==1):
-                            nb_M =3
-                            nb_D=4
-                            nb_A=3
-                            nb_team +=1    
-                        elif (nb_D==5) and (nb_M==3):
-                            nb_A +=1
-                            nb_team +=1
-                                      
+                #nb_G,nb_D,nb_M,nb_A=0,0,0,0 #initialiser les différents compteurs
+                #nb_team=0
+                
+                if schema_prefere=="Oui, j'ai mes habitudes":
+                    nb_D,nb_M,nb_A=int(tactique[0]),int(tactique[2]),int(tactique[4])
+                    nb_team=10
+                #méthode itérative pour récupérer les positions 1 à 1 et en déduire le schéma tactique
+                else:
+                    nb_G,nb_D,nb_M,nb_A=0,0,0,0 #initialiser les différents compteurs
+                    nb_team=0
+                    for p in data["Poste"] :
+                        if nb_team <=8 :
+                            if (p=="D") & (nb_D<5):
+                                nb_D +=1
+                                nb_team +=1
+                            elif (p=="M") & (nb_M<5):
+                                nb_M +=1
+                                nb_team +=1
+                            elif (p=="A") & (nb_A<3):
+                                nb_A +=1
+                                nb_team +=1 
+                                
+                            #print(nb_D,nb_M,nb_A)
+                        elif nb_team <10:
+                            if (nb_D==4) and (nb_M==2):
+                                nb_M +=1
+                                nb_team +=1
+                                
+                            elif (nb_D==2) and (nb_M==5):
+                                nb_D +=1
+                                nb_team +=1
+                            elif (nb_D==2) and (nb_M==4):
+                                nb_D +=1
+                                nb_team +=1
+                            elif (nb_D==3) and (nb_M==3):
+                                nb_D +=1
+                                nb_team +=1
+                            elif (nb_D==5) and (nb_M==2):
+                                nb_M +=1
+                                nb_team +=1
+                            elif (nb_D==4) and (nb_M==4):
+                                nb_A +=1
+                                nb_team +=1
+                            elif (nb_D==3) and (nb_M==4):
+                                nb_D +=1
+                                nb_team +=1    
+                            elif (nb_D==5) and (nb_M==1):
+                                nb_M =3
+                                nb_D=4
+                                nb_A=3
+                                nb_team +=1    
+                            elif (nb_D==5) and (nb_M==3):
+                                nb_A +=1
+                                nb_team +=1
+                
+                #si pas assez de défenseur, on applique un 4-4-2 par défaut
+                if nb_D<3 :
+                   nb_D=4
+                   nb_M=4
+                   nb_A=2
+                
                 #on récuprère les lignes de chaques postes
                         
                 data_G=data[data["Poste"]=="G"]
@@ -2053,7 +2103,7 @@ elif choice == "Outils MPG":
                 #st.dataframe(team_11["But/Match Noté"].style.highlight_max())
             
             
-            my_expander_pred = st.expander(label="afficher l'équipe idéale?",expanded=True)
+            my_expander_pred = st.expander(label="afficher l'équipe idéale?",expanded=False)
             
             my_selection=team_11['Joueur'].values.tolist()
             data=df_MPG_Current[['Joueur','Poste_bis','Club','Côte','Enchère moy','Note']]
@@ -2233,7 +2283,8 @@ elif choice == "Outils MPG":
                             label=local_D.iloc[1]
                             st.image(img,caption=label,width=80)
                             
-                            
+            ##############################
+                
             st.markdown("###  Anticiper l'équipe adverse")
             st.write("Quelle équipe pour mon adversaire d'après le modèle prédictif?")
             
@@ -2242,7 +2293,7 @@ elif choice == "Outils MPG":
                  'Sélectionner adversaire',
                  adv)
             
-            my_expander_prédictions_adv = st.expander(label="afficher les prédictions pour le prochain match",expanded=True)
+            my_expander_prédictions_adv = st.expander(label="afficher les prédictions pour le prochain match",expanded=False)
             
             
             if adv_options=="Compo2" :
@@ -2270,7 +2321,7 @@ elif choice == "Outils MPG":
             nb_G,nb_D,nb_M,nb_A=0,0,0,0 #initialiser les différents compteurs
             nb_team=0
             
-            my_expander_pred2 = st.expander(label="afficher la compo qui représentera le plus grand défi?",expanded=True)
+            my_expander_pred2 = st.expander(label="afficher la compo qui représentera le plus grand défi?",expanded=False)
             
             with my_expander_pred2: 
                 functions_to_apply = {
@@ -2406,7 +2457,7 @@ elif choice == "Outils MPG":
                 #st.dataframe(team_11["But/Match Noté"].style.highlight_max())
             
             
-            my_expander_pred2 = st.expander(label="afficher l'équipe adverse la plus coriace?",expanded=True)
+            my_expander_pred2 = st.expander(label="afficher l'équipe adverse la plus coriace?",expanded=False)
             
             my_selection=team_11['Joueur'].values.tolist()
             data=df_MPG_Current[['Joueur','Poste_bis','Club','Côte','Enchère moy','Note']]
@@ -2586,4 +2637,7 @@ elif choice == "Outils MPG":
                             label=local_D.iloc[1]
                             st.image(img,caption=label,width=80)
                             
+                            
+            ##############################   
+             
             st.success("On siffle la fin de match, il n'y a plus qu'à lancer une nouvelle compétition MPG pour tester pour de vrai!")
