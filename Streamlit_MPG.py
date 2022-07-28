@@ -750,7 +750,7 @@ elif choice == "Outils MPG":
 	with tools:
             st.header('4/ Outils MPG')
             st.write("MPG c'est une expérience ludique très sympathique mais pour les non-footeux et/ou ceux qui jouent pour gagner, \
-                     la perspective de ne pas savoir comment exploiter le plein potentiel de son équipe peu devenir un peu frustant. \n \
+                     la perspective de ne pas savoir comment exploiter le plein potentiel de son équipe peut devenir un peu frustant. \n \
                     \n Heureusement, on a penser à quelques outils qui pourraient bien te faire expérimenter le meilleur d'une compétition MPG.\
                         \n ")
             ##############################
@@ -758,8 +758,9 @@ elif choice == "Outils MPG":
         
         
             st.write("Besoin d'aide pour monter une équipe? On va te générer une équipe MPG automatiquement")
+            st.write("Budget et nb de joueurs minimum classiques : 500 M€/Attaquants(4),Milieux(6),Défenseurs(6),Gardiens(2)")
             col1, col2, col3,col4,col5 = st.columns(5)
-            with col2:
+            with col3:
                 st.image("https://media.giphy.com/media/nP1EHm9A7M5QONQSKr/giphy.gif?cid=ecf05e473wxsnkgaypwmy4xp46qq9ve9xev0zfimcnqopla2", # I prefer to load the GIFs using GIPHY
                             width=200, # The actual size of most gifs on GIPHY are really small, and using the column-width parameter would make it weirdly big. So I would suggest adjusting the width manually!
                         )
@@ -769,8 +770,8 @@ elif choice == "Outils MPG":
             data=data.drop_duplicates(keep = 'first')#on conserve 1 ligne par joueur
             
             data_pick=data#
-            MPG_budget = st.slider("Quel est votre budget pour ce mercato?",300,700,500)
-            budget = MPG_budget
+            #MPG_budget = st.slider("Quel est votre budget pour ce mercato?",300,700,500)
+            budget = 500 #MPG_budget
             liste=[]#initialiser une liste vide
             nb_pick=0 # initialiser un counter 
             #diviser le panel de joueurs par poste
@@ -784,15 +785,16 @@ elif choice == "Outils MPG":
             options_budgets=['Egale','Selon le nb de postes',"Priorité à l'attaque", "Priorité au milieu","Priorité à la défense"]
             budget_A,budget_D,budget_M,budget_G= int(budget*0.5),int(budget*0.2),int(budget*0.2),int(budget*0.1)
             nb_A,nb_D,nb_M,nb_G=4,6,6,2
+            nb_Postes=nb_A+nb_M+nb_D+nb_G
 
             my_selection=[]
-            if st.checkbox('Vérifier les paramètres pour générer votre équipe?'):
-                #on définit le nb de joueurs souhaités
-                nb_A=st.slider("Combien d'attaquants pour votre équipe (idéalement)?",4,10,4)
-                nb_D=st.slider("Combien de défenseurs pour votre équipe (idéalement)?",6,12,6)
-                nb_M=st.slider("Combien de milieux pour votre équipe (idéalement)?",6,12,6)
-                nb_G=st.slider("Combien de gardiens pour votre équipe (idéalement)?",2,4,2)
-                nb_Postes=nb_A+nb_M+nb_D+nb_G
+            # if st.checkbox('Vérifier les paramètres pour générer votre équipe?'):
+            #     #on définit le nb de joueurs souhaités
+            #     nb_A=st.slider("Combien d'attaquants pour votre équipe (idéalement)?",4,10,4)
+            #     nb_D=st.slider("Combien de défenseurs pour votre équipe (idéalement)?",6,12,6)
+            #     nb_M=st.slider("Combien de milieux pour votre équipe (idéalement)?",6,12,6)
+            #     nb_G=st.slider("Combien de gardiens pour votre équipe (idéalement)?",2,4,2)
+            #     nb_Postes=nb_A+nb_M+nb_D+nb_G
                 #tactique = st.selectbox(
                  #'Schéma tactique?',
                  #('3-4-3','3-5-2','4-3-3', '4-4-2','4-5-1','5-3-2','5-4-1'))
@@ -800,7 +802,7 @@ elif choice == "Outils MPG":
                 #on définit la strégie de mercato
                 #options_budgets=['Egale','Selon le nb de postes',"Priorité à l'attaque", "Priorité au milieu","Priorité à la défense"]
                 #La stratégie de marcato va attribuer une fraction du budget total pour chaucn des postes à pourvoir
-                repartition_budget = st.selectbox('Répartition du budget (A-M-D-G)?',options_budgets)
+            repartition_budget = st.selectbox('Répartition du budget (A-M-D-G)?',options_budgets)
                 
             if repartition_budget==options_budgets[0]:
                 budget_A,budget_M,budget_D,budget_G= int(budget*0.25),int(budget*0.25),int(budget*0.25),int(budget*0.25)
@@ -954,247 +956,7 @@ elif choice == "Outils MPG":
                 save_selection.to_csv("media/saved_selection.csv",header=False,index=False)
                 
                 ##############################
-                
-                st.header("Mon Equipe")#paragraphe
-                st.write("On affiche son équipe MPG")
-
-                #selection de joueurs en dur, si pas de sélection auto-générée
-                my_selection_0=['Baldé Ibrahima',
-                 'Nguette Opa',
-                 'Guirassy Serhou',
-                 'Milik Arkadiusz',
-                 'Mbuku Nathanaël',
-                 'Weah Timothy',
-                 'Laborde Gaëtan',
-                 'Mikelbrencis William',
-                 'Denayer Jason',
-                 'Andrei Girotto',
-                 'Lirola Pol',
-                 'Abdelhamid Yunis',
-                 'Jemerson',
-                 'Dante',
-                 'Seidu Alidu',
-                 'Oyongo Ambroise',
-                 'Sissokho Issouf',
-                 'Payet Dimitri',
-                 'Chirivella Pedro',
-                 'Bamba Jonathan',
-                 'Agoume Lucien',
-                 'Prcic Sanjin',
-                 "M'Bock Hianga'a",
-                 'Thomasson Adrien',
-                 'Doucet Lohann',
-                 'Bitumazala Nathan',
-                 'Donnarumma Gianluigi',
-                 'Petkovic Danijel',
-                 'Navas Keylor']
-                
-                
-                
-                if my_selection==[]:
-                    #my_selection=my_selection_0
-                    my_selection=pd.read_csv('media/saved_selection.csv',header=None)[0].values.tolist()
-                    #st.write("Vous n'avez pas généré d'équipe ou avez modifié certains paramètres de l'auto-mercato sans regénérer d'équipe, d'où l'affichage d'une équipe par défaut ")
-                else :
-                    st.write("Votre équipe auto-générée")
-                
-                
-                
-                data=df_MPG_Current[['Joueur','Poste_bis','Club','Côte','Enchère moy','Note']]
-                data=data.drop_duplicates(keep = 'first')
-                data=data[data['Joueur'].isin(my_selection)]
-                data=data.sort_values(by=['Note'],ascending=False)
-                data.index = np.arange(1, len(data) + 1)
-                #st.dataframe(data.round(2))
-                #Pour afficher ou non, son équipe, selon son schéma tactique
-                
-                tactique="4-4-2"
-                #tactique = st.selectbox(
-                #'Schéma tactique?',
-                #('3-4-3','3-5-2','4-3-3', '4-4-2','4-5-1','5-3-2','5-4-1'))
-                tactique_D,tactique_M,tactique_A=int(tactique[0]),int(tactique[2]),int(tactique[4])
-                
-                
-                #if st.checkbox('afficher son équipe?'):
-                    #st.write("On affiche son équipe MPG")
-                    #tactique = st.selectbox(
-                     #'Schéma tactique?',
-                     #('3-4-3','3-5-2','4-3-3', '4-4-2','4-5-1','5-3-2','5-4-1'))
-                    #tactique_D,tactique_M,tactique_A=int(tactique[0]),int(tactique[2]),int(tactique[4])
-                    
-                    #row_G,row_D,row_M,row_A=st.container(),st.container(),st.container(),st.container()
-                my_expander = st.expander(label='afficher mon équipe?',expanded=True)
-                
-                 
-                with my_expander:
-                    
-                 
-                    with st.container():#ligne gardien
-                        col1, col2, col3,col4,col5 = st.columns(5)
-                        local_G=data[data['Poste_bis']=='G']["Joueur"]
-                        list_club=data[data['Poste_bis']=='G']["Club"]
-                        with col3:
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_G.iloc[0]
-                            st.image(img,caption=label,width=80)
-                            
-                    with st.container(): #défense
-                        local_D=data[data['Poste_bis']=='D']["Joueur"]
-                        list_club=data[data['Poste_bis']=='D']["Club"]
-                        #l=glob.glob("Maillots/"+list_club+".png")
-                        if tactique_D==3 :
-                            col1, col2, col3,col4,col5 = st.columns(5)
-                            with col2 :
-                                #st.write(local_D.iloc[0])
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                            with col3 :
-                                img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                                label=local_D.iloc[1]
-                                st.image(img,caption=label,width=80)
-                            with col4 :
-                                img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                                label=local_D.iloc[2]
-                                st.image(img,caption=label,width=80)    
-                        elif tactique_D==4:
-                            col1, col2, col3,col4 = st.columns(4)
-                            with col1 :
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                            with col2 :
-                                img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                                label=local_D.iloc[1]
-                                st.image(img,caption=label,width=80)
-                            with col3 :
-                                img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                                label=local_D.iloc[2]
-                                st.image(img,caption=label,width=80)
-                            with col4 :
-                                img=glob.glob(path_maillots+list_club.iloc[3]+".png")
-                                label=local_D.iloc[3]
-                                st.image(img,caption=label,width=80)
-                        else:
-                            col1, col2, col3,col4,col5 = st.columns(5)
-                            with col1 :
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                            with col2 :
-                                img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                                label=local_D.iloc[1]
-                                st.image(img,caption=label,width=80)
-                            with col3 :
-                                img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                                label=local_D.iloc[2]
-                                st.image(img,caption=label,width=80)
-                            with col4 :
-                                img=glob.glob(path_maillots+list_club.iloc[3]+".png")
-                                label=local_D.iloc[3]
-                                st.image(img,caption=label,width=80) 
-                            with col5 :
-                                img=glob.glob(path_maillots+list_club.iloc[4]+".png")
-                                label=local_D.iloc[4]
-                                st.image(img,caption=label,width=80)
-                
-                    with st.container():#milieu
-                        local_D=data[data['Poste_bis']=='M']["Joueur"]
-                        list_club=data[data['Poste_bis']=='M']["Club"]
-                        #l=glob.glob("Maillots/"+list_club+".png")
-                        if tactique_M==3 :
-                            col1, col2, col3,col4,col5 = st.columns(5)
-                            with col2 :
-                                #st.write(local_D.iloc[0])
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                            with col3 :
-                                img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                                label=local_D.iloc[1]
-                                st.image(img,caption=label,width=80)
-                            with col4 :
-                                img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                                label=local_D.iloc[2]
-                                st.image(img,caption=label,width=80)    
-                        elif tactique_M==4:
-                            col1, col2, col3,col4 = st.columns(4)
-                            with col1 :
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                            with col2 :
-                                img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                                label=local_D.iloc[1]
-                                st.image(img,caption=label,width=80)
-                            with col3 :
-                                img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                                label=local_D.iloc[2]
-                                st.image(img,caption=label,width=80)
-                            with col4 :
-                                img=glob.glob(path_maillots+list_club.iloc[3]+".png")
-                                label=local_D.iloc[3]
-                                st.image(img,caption=label,width=80)
-                        else:
-                            col1, col2, col3,col4,col5 = st.columns(5)
-                            with col1 :
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                            with col2 :
-                                img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                                label=local_D.iloc[1]
-                                st.image(img,caption=label,width=80)
-                            with col3 :
-                                img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                                label=local_D.iloc[2]
-                                st.image(img,caption=label,width=80)
-                            with col4 :
-                                img=glob.glob(path_maillots+list_club.iloc[3]+".png")
-                                label=local_D.iloc[3]
-                                st.image(img,caption=label,width=80) 
-                            with col5 :
-                                img=glob.glob(path_maillots+list_club.iloc[4]+".png")
-                                label=local_D.iloc[4]
-                                st.image(img,caption=label,width=80) 
-                                
-                    with st.container():#attaque
-                        local_D=data[data['Poste_bis']=='A']["Joueur"]
-                        list_club=data[data['Poste_bis']=='A']["Club"]
-                        #l=glob.glob("Maillots/"+list_club+".png")
-                        if tactique_A==3 :
-                            col1, col2, col3,col4,col5 = st.columns(5)
-                            with col2 :
-                                #st.write(local_D.iloc[0])
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                            with col3 :
-                                img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                                label=local_D.iloc[1]
-                                st.image(img,caption=label,width=80)
-                            with col4 :
-                                img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                                label=local_D.iloc[2]
-                                st.image(img,caption=label,width=80)    
-                        elif tactique_A==1 :
-                            col1, col2, col3,col4,col5 = st.columns(5)
-                            with col3 :
-                                #st.write(local_D.iloc[0])
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                        else:
-                            col1, col2, col3,col4,col5 = st.columns(5)
-                            with col2 :
-                                img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                                label=local_D.iloc[0]
-                                st.image(img,caption=label,width=80)
-                            with col4 :
-                                img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                                label=local_D.iloc[1]
-                                st.image(img,caption=label,width=80)
-                    
+                   
                     
             ##############################        
                     
@@ -1203,14 +965,17 @@ elif choice == "Outils MPG":
         
             #st.header("Charger son équipe")#paragraphe
             st.write("Tu as une équipe MPG, fait voir à quoi elle ressemble!")          
-            uploaded_file=None #uploaded_file = st.file_uploader("Sélectionne un fichier sur ton ordinateur")
-            if uploaded_file is  None:
-                my_selection=pd.read_csv('media/saved_selection.csv',header=None)[0].values.tolist()
-                st.write("On part sur la dernière équipe auto-générée, sauf si tu veux en générer une autre?")
+            # uploaded_file=None #uploaded_file = st.file_uploader("Sélectionne un fichier sur ton ordinateur")
+            # if uploaded_file is  None:
+            #     my_selection=pd.read_csv('media/saved_selection.csv',header=None)[0].values.tolist()
+            #     st.write("On part sur la dernière équipe auto-générée, sauf si tu veux en générer une autre?")
             
-            if uploaded_file is not None:
-                my_selection=pd.read_csv(uploaded_file,header=None)[0].values.tolist()
-                st.write("Ok, on part sur cette liste de joueurs.")
+            # if uploaded_file is not None:
+            #     my_selection=pd.read_csv(uploaded_file,header=None)[0].values.tolist()
+            #     st.write("Ok, on part sur cette liste de joueurs.")
+                
+            my_selection=pd.read_csv('media/saved_selection.csv',header=None)[0].values.tolist()
+            st.write("On part sur la dernière équipe auto-générée, sauf si tu veux en générer une autre?")
                 
             data=df_MPG_Current[['Joueur','Poste_bis','Club','Côte','Enchère moy','Note']]
             data=data.drop_duplicates(keep = 'first')
@@ -1221,7 +986,7 @@ elif choice == "Outils MPG":
             #Pour afficher ou non, son équipe, selon son schéma tactique
             
             tactique = st.selectbox(
-            'Schéma tactique?(2)',
+            'Schéma tactique?',
             ('3-4-3','3-5-2','4-3-3', '4-4-2','4-5-1','5-3-2','5-4-1'))
             tactique_D,tactique_M,tactique_A=int(tactique[0]),int(tactique[2]),int(tactique[4])
             
@@ -1409,20 +1174,43 @@ elif choice == "Outils MPG":
             st.markdown("###  Comparer mes joueurs")
             
             st.write("Comparons les joueurs!📊")
-            st.write("Quelles sont les pépites de l'effectif")
+            st.write("Quelles sont les pépites de l'effectif?")
             
             col1, col2, col3,col4,col5 = st.columns(5)
-            with col2:
+            with col3:
                 st.image("https://media0.giphy.com/media/LnYiJhfVhywlrzF7jo/giphy.gif", # I prefer to load the GIFs using GIPHY
                             width=200, # The actual size of most gifs on GIPHY are really small, and using the column-width parameter would make it weirdly big. So I would suggest adjusting the width manually!
                         )
             
-            st.write("Pour les besoins de la démonstration, on va utiliser notre équipe. Mais çà fonctionnerait pareil pour la tienne.😉")
+            st.write("Pour les besoins de la démonstration, on va utiliser une de nos équipes pour la suite. Mais çà fonctionnerait pareil pour la tienne.😉")
             
-            my_expander_compo1 = st.expander(label="Ma liste de joueur-Compo1",expanded=False)
+            adv_=["Compo1","Compo2","Compo3"]
+            adv_options_ = st.selectbox(
+                 'Sélectionner une équipe',
+                 adv_)
+            
+            #my_expander_prédictions_adv = st.expander(label="afficher les prédictions pour le prochain match",expanded=False)
+            
+            
+            if adv_options_=="Compo1" :
+                compo_1=pd.read_csv('data/Compo_1.csv',header=None)
+                pred1=pd.read_csv('data/Predictions_compo_1.csv')
+                proba1=pd.read_csv("data/Probas_compo_1.csv")
+            elif adv_options_=="Compo2" :
+                compo_1=pd.read_csv('data/Compo_2.csv',header=None)
+                pred1=pd.read_csv('data/Predictions_compo_2.csv')
+                proba1=pd.read_csv("data/Probas_compo_2.csv")    
+            else :
+                compo_1=pd.read_csv('data/Compo_3.csv',header=None)
+                pred1=pd.read_csv('data/Predictions_compo_3.csv')
+                proba1=pd.read_csv("data/Probas_compo_3.csv")
+            
+            
+            
+            my_expander_compo1 = st.expander(label="Ma liste de joueur-"+adv_options_,expanded=False)
             
             with my_expander_compo1: 
-                compo_1=pd.read_csv('data/Compo_1.csv',header=None)
+                #compo_1=pd.read_csv('data/Compo_1.csv',header=None)
                 compo_1.columns=["Joueur"]
                 st.write("Notre liste de joueurs")
                 st.dataframe(compo_1)
@@ -1442,7 +1230,7 @@ elif choice == "Outils MPG":
                         'Note_Jour' : ['mean','count']
                     }
                     
-                compo_1=pd.read_csv('data/Compo_1.csv',header=None)
+                #compo_1=pd.read_csv('data/Compo_1.csv',header=None)
                 compo_1.columns=["Joueur"]
                 df_compo_1=df0.loc[df0["Joueur"].isin(compo_1["Joueur"])]
                 if check:
@@ -1592,7 +1380,7 @@ elif choice == "Outils MPG":
                             width=200, # The actual size of most gifs on GIPHY are really small, and using the column-width parameter would make it weirdly big. So I would suggest adjusting the width manually!
                         )
             
-            dernière_J = st.slider("Afficher la meilleure compo de la journée",1,38,33)
+            dernière_J = st.slider("Sélectionner la journée voulue :",1,38,33)
             nb_G,nb_D,nb_M,nb_A=0,0,0,0 #initialiser les différents compteurs
             nb_team=0
             
@@ -1605,7 +1393,7 @@ elif choice == "Outils MPG":
                     'Titulaire_Match':['sum'],
                     'But_Match':['sum']
                 }
-                compo_1=pd.read_csv('data/Compo_1.csv',header=None)
+                #compo_1=pd.read_csv('data/Compo_1.csv',header=None)
                 compo_1.columns=["Joueur"]
                 df_compo_1=df0.loc[df0["Joueur"].isin(compo_1["Joueur"])]
                 
@@ -1671,7 +1459,14 @@ elif choice == "Outils MPG":
                         elif (nb_D==5) and (nb_M==3):
                             nb_A +=1
                             nb_team +=1
-                                      
+                
+                #si pas assez de joueurs, on applique un 4-4-2 par défaut
+                if nb_D<3 or nb_M<3 or nb_A<2 :
+                   nb_D=4
+                   nb_M=4
+                   nb_A=2            
+                
+                
                 #on récuprère les lignes de chaques postes
                         
                 data_G=data[data["Poste"]=="G"]
@@ -1708,7 +1503,7 @@ elif choice == "Outils MPG":
                 elif team_11[team_11["Poste"]=="G"]["Note"].sum()>=8 :
                     st.write(" Ton gardien était chaud! Il annule un but")
                     
-                st.write("Le nombre de joueurs vraiment bon (note>6.5):",team_11[(team_11["Note"]>=7)&(team_11["Poste"]!="G")]['nb_Note'].sum())
+                st.write("Le nombre de joueurs vraiment bon (note > 7):",team_11[(team_11["Note"]>=7)&(team_11["Poste"]!="G")]['nb_Note'].sum())
                 st.write("dont :",team_11[(team_11["Note"]>=7)&(team_11["nb_But"]==0)&(team_11["Poste"]!="G")]['nb_Note'].sum(),"qui n'ont pas marqué en vrai. But virtuel?")
         
       
@@ -1925,8 +1720,8 @@ elif choice == "Outils MPG":
             
             #my_expander_prédictions = st.expander(label="afficher les prédictions pour le prochain match",expanded=True)
             
-            pred1=pd.read_csv('data/Predictions_compo_1.csv')
-            proba1=pd.read_csv("data/Probas_compo_1.csv")
+            #pred1=pd.read_csv('data/Predictions_compo_1.csv')
+            #proba1=pd.read_csv("data/Probas_compo_1.csv")
             pred_proba1=pred1.merge(proba1, left_on='Joueur', right_on='Joueur')
             pred_proba1=pred_proba1.sort_values('Classe',ascending=False)
             pred_proba1.columns=['Joueur','Classe','0','1','2','3']
@@ -1953,7 +1748,7 @@ elif choice == "Outils MPG":
             
             if schema_prefere=="Oui, j'ai mes habitudes":
                 tactique = st.selectbox(
-                'Ok,laquelle?',
+                'Ok,on vous écoute?',
                 ('3-4-3','3-5-2','4-3-3', '4-4-2','4-5-1','5-3-2','5-4-1'))
                 #nb_D,nb_M,nb_A=int(tactique[0]),int(tactique[2]),int(tactique[4])
                 #nb_team=10
@@ -1968,7 +1763,7 @@ elif choice == "Outils MPG":
                     'Titulaire_Match':['sum'],
                     'But_Match':['sum']
                 }
-                compo_1=pd.read_csv('data/Compo_1.csv',header=None)
+                #compo_1=pd.read_csv('data/Compo_1.csv',header=None)
                 compo_1.columns=["Joueur"]
                 df_compo_1=df0.loc[df0["Joueur"].isin(compo_1["Joueur"])]
                 
@@ -2284,360 +2079,7 @@ elif choice == "Outils MPG":
                             st.image(img,caption=label,width=80)
                             
             ##############################
-                
-            st.markdown("###  Anticiper l'équipe adverse")
-            st.write("Quelle équipe pour mon adversaire d'après le modèle prédictif?")
             
-            adv=["Compo2","Compo3"]
-            adv_options = st.selectbox(
-                 'Sélectionner adversaire',
-                 adv)
-            
-            my_expander_prédictions_adv = st.expander(label="afficher les prédictions pour le prochain match",expanded=False)
-            
-            
-            if adv_options=="Compo2" :
-                pred2=pd.read_csv('data/Predictions_compo_2.csv')
-                proba2=pd.read_csv("data/Probas_compo_2.csv")
-            else :
-                pred2=pd.read_csv('data/Predictions_compo_3.csv')
-                proba2=pd.read_csv("data/Probas_compo_3.csv")
-            
-            
-            pred_proba2=pred2.merge(proba2, left_on='Joueur', right_on='Joueur')
-            pred_proba2=pred_proba2.sort_values('Classe',ascending=False)
-            pred_proba2.columns=['Joueur','Classe','0','1','2','3']
-            pred_proba2["pred"]=pred_proba2.iloc[:,-4:].idxmax(axis=1).astype(int)
-            pred_proba2["pred_cumul"]=1*pred_proba2["1"]+2*pred_proba2["2"]+3*pred_proba2["3"]-1*pred_proba2["0"]
-            pred_proba2=pred_proba2.drop(columns=["pred"])
-            
-            #pred_proba1["pred_cumul"]=1*pred_proba1["Classe 1"]+2*pred_proba1["Classe 2"]+3*pred_proba1["Classe 3"]-1*pred_proba1["Classe 0"]
-            
-            
-            
-            with my_expander_prédictions_adv :
-                st.dataframe(pred_proba2)    
-            
-            nb_G,nb_D,nb_M,nb_A=0,0,0,0 #initialiser les différents compteurs
-            nb_team=0
-            
-            my_expander_pred2 = st.expander(label="afficher la compo qui représentera le plus grand défi?",expanded=False)
-            
-            with my_expander_pred2: 
-                functions_to_apply = {
-                    'Note_Jour' : ['mean'],
-                    'Match_Noté':["count"],
-                    'Titulaire_Match':['sum'],
-                    'But_Match':['sum']
-                }
-                
-                if adv_options=="Compo2" :
-                    compo_2=pd.read_csv('data/Compo_2.csv',header=None)
-                else :
-                    compo_2=pd.read_csv('data/Compo_3.csv',header=None)
-                
-                compo_2.columns=["Joueur"]
-                df_compo_2=df0.loc[df0["Joueur"].isin(compo_2["Joueur"])]
-                
-                df_graph=df_compo_2[df_compo_2['Jour']==dernière_J]
-                #df_graph=df_compo_1
-                data =df_graph.groupby(['Club','Joueur','Poste_bis'],as_index=False).agg(functions_to_apply).round(2)
-                data.columns=['Club','Joueur','Poste','Note','nb_Note','nb_tit',"nb_But"]
-                data=data.merge(pred_proba2,on='Joueur')
-                data=data.drop(columns=['Note','nb_tit',"nb_But"])
-                
-                #data["But/Match noté"]=data["nb_But"]/data["nb_Note"]
-                #data["But/Match noté"]=data["But/Match noté"].round(2)
-                #data["%Titulaire_noté"]=data["nb_tit"]/data["nb_Note"]
-                #data["%Titulaire_noté"]=data["%Titulaire_noté"].round(2)
-                #data["%Titulaire"]=data["nb_tit"]/data["nb_Note"]
-                #data["%Titulaire"]=data["%Titulaire"].round(2)
-                data=data.fillna(0)
-                data.sort_values(by=['pred_cumul'],ascending=False,inplace=True)
-                #st.dataframe(data)
-                
-                #méthode itérative pour récupérer les positions 1 à 1 et en déduire le schéma tactique
-                nb_G,nb_D,nb_M,nb_A=0,0,0,0 #initialiser les différents compteurs
-                nb_team=0
-    
-                for p in data["Poste"] :
-                    if nb_team <=8 :
-                        if (p=="D") & (nb_D<5):
-                            nb_D +=1
-                            nb_team +=1
-                        elif (p=="M") & (nb_M<5):
-                            nb_M +=1
-                            nb_team +=1
-                        elif (p=="A") & (nb_A<3):
-                            nb_A +=1
-                            nb_team +=1 
-                            
-                        #print(nb_D,nb_M,nb_A)
-                    elif nb_team <10:
-                        if (nb_D==4) and (nb_M==2):
-                            nb_M +=1
-                            nb_team +=1
-                            
-                        elif (nb_D==2) and (nb_M==5):
-                            nb_D +=1
-                            nb_team +=1
-                        elif (nb_D==2) and (nb_M==4):
-                            nb_D +=1
-                            nb_team +=1
-                        elif (nb_D==3) and (nb_M==3):
-                            nb_D +=1
-                            nb_team +=1
-                        elif (nb_D==5) and (nb_M==2):
-                            nb_M +=1
-                            nb_team +=1
-                        elif (nb_D==4) and (nb_M==4):
-                            nb_A +=1
-                            nb_team +=1
-                        elif (nb_D==3) and (nb_M==4):
-                            nb_D +=1
-                            nb_team +=1    
-                        elif (nb_D==5) and (nb_M==1):
-                            nb_M =3
-                            nb_D=4
-                            nb_A=3
-                            nb_team +=1    
-                        elif (nb_D==5) and (nb_M==3):
-                            nb_A +=1
-                            nb_team +=1
-                                      
-                #on récuprère les lignes de chaques postes
-                        
-                data_G=data[data["Poste"]=="G"]
-                data_G=data_G.head(1)
-                data_D=data[data["Poste"]=="D"]
-                data_D=data_D.head(5)
-                data_M=data[data["Poste"]=="M"]
-                data_M=data_M.head(5)
-                data_A=data[data["Poste"]=="A"]
-                data_A=data_A.head(3)
-                
-                #on ne conserve que les premières lignes nécessaires
-                data_G=data[data["Poste"]=="G"]
-                data_G=data_G.iloc[0:1,:]
-                data_D=data[data["Poste"]=="D"]
-                data_D=data_D.iloc[0:nb_D,:]
-                data_M=data[data["Poste"]=="M"]
-                data_M=data_M.iloc[0:nb_M,:]
-                data_A=data[data["Poste"]=="A"]
-                data_A=data_A.iloc[0:nb_A,:]
-                
-                team_11=pd.concat([data_G,data_D,data_M,data_A])
-                #team_11=team_11.iloc[:,:-3]
-                st.write("Le schéma adverse probable, un ",nb_D,"-",nb_M,"-",nb_A )
-                #st.write("Tu aurais pu compter sur ",team_11["nb_But"].sum(),"but(s) réel(s)")
-                if nb_D==4 :
-                    st.write("Bonus défense à 4: +0.5")
-                elif nb_D==5 :
-                    st.write("Bonus défense à 5: +1, çà va être plus compliqué de mettre un but virtuel")
-                #st.write("Ton nombre de titulaires au coup d'envoi ",team_11["nb_tit"].sum())
-                
-                if team_11[team_11["Classe"]==0]["nb_Note"].sum()>=3 :
-                    st.write(" Normalement, t'affrontes une équipe de Rotaldos")
-                elif team_11[team_11["Classe"]==0]["nb_Note"].sum()==2 :
-                    st.write("1 rotaldo de plus et c'est le CSC en ta faveur. Faut peut-être songer à un petit bonus.")
-                else :
-                    st.write(" Normalement, faut pas compter sur un CSC en ta faveur pour gagner le match.")
-                    
-                st.write("Le nombre de joueurs de classe 3:",team_11[(team_11["Classe"]==3)]['nb_Note'].sum())
-                st.write("Le nombre de joueurs de classe 0 et 1:",team_11[(team_11["Classe"]<=1)]['nb_Note'].sum())
-                #st.write("dont :",team_11[(team_11["Note"]>=7)&(team_11["nb_But"]==0)&(team_11["Poste"]!="G")]['nb_Note'].sum(),"qui n'ont pas marqué en vrai. But virtuel?")
-        
-      
-                
-                def highlight_cells(val, color_if_true, color_if_false):
-                    color = color_if_true if val == 3 else color_if_false
-                    return 'background-color: {}'.format(color)
-                #st.dataframe(team_11.style.applymap(highlight_cells, color_if_true='yellow', color_if_false='#C6E2E9',subset=['But/Match noté']))
-                st.dataframe(team_11.style.format('{:.2f}', subset=['Classe']).applymap(highlight_cells, color_if_true='red', color_if_false='white',subset=['Classe']))
-                #st.dataframe(team_11["But/Match Noté"].style.highlight_max())
-            
-            
-            my_expander_pred2 = st.expander(label="afficher l'équipe adverse la plus coriace?",expanded=False)
-            
-            my_selection=team_11['Joueur'].values.tolist()
-            data=df_MPG_Current[['Joueur','Poste_bis','Club','Côte','Enchère moy','Note']]
-            data=data.drop_duplicates(keep = 'first')
-            data=data[data['Joueur'].isin(my_selection)]
-            #data=data.sort_values(by=['Note'],ascending=False)
-            data.index = np.arange(1, len(data) + 1)
-            #st.dataframe(data.round(2))
-            #Pour afficher ou non, son équipe, selon le meilleur schéma tactique
-            tactique_D,tactique_M,tactique_A=nb_D,nb_M,nb_A
-                
-                 
-            with my_expander_pred2:
-                with st.container():#ligne gardien
-                    col1, col2, col3,col4,col5 = st.columns(5)
-                    local_G=data[data['Poste_bis']=='G']["Joueur"]
-                    list_club=data[data['Poste_bis']=='G']["Club"]
-                    with col3:
-                        img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                        label=local_G.iloc[0]
-                        st.image(img,caption=label,width=80)
-                        
-                with st.container(): #défense
-                    local_D=data[data['Poste_bis']=='D']["Joueur"]
-                    list_club=data[data['Poste_bis']=='D']["Club"]
-                    #l=glob.glob("Maillots/"+list_club+".png")
-                    if tactique_D==3 :
-                        col1, col2, col3,col4,col5 = st.columns(5)
-                        with col2 :
-                            #st.write(local_D.iloc[0])
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                        with col3 :
-                            img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                            label=local_D.iloc[1]
-                            st.image(img,caption=label,width=80)
-                        with col4 :
-                            img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                            label=local_D.iloc[2]
-                            st.image(img,caption=label,width=80)    
-                    elif tactique_D==4:
-                        col1, col2, col3,col4 = st.columns(4)
-                        with col1 :
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                        with col2 :
-                            img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                            label=local_D.iloc[1]
-                            st.image(img,caption=label,width=80)
-                        with col3 :
-                            img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                            label=local_D.iloc[2]
-                            st.image(img,caption=label,width=80)
-                        with col4 :
-                            img=glob.glob(path_maillots+list_club.iloc[3]+".png")
-                            label=local_D.iloc[3]
-                            st.image(img,caption=label,width=80)
-                    else:
-                        col1, col2, col3,col4,col5 = st.columns(5)
-                        with col1 :
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                        with col2 :
-                            img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                            label=local_D.iloc[1]
-                            st.image(img,caption=label,width=80)
-                        with col3 :
-                            img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                            label=local_D.iloc[2]
-                            st.image(img,caption=label,width=80)
-                        with col4 :
-                            img=glob.glob(path_maillots+list_club.iloc[3]+".png")
-                            label=local_D.iloc[3]
-                            st.image(img,caption=label,width=80) 
-                        with col5 :
-                            img=glob.glob(path_maillots+list_club.iloc[4]+".png")
-                            label=local_D.iloc[4]
-                            st.image(img,caption=label,width=80)
-                
-                with st.container():#milieu
-                    local_D=data[data['Poste_bis']=='M']["Joueur"]
-                    list_club=data[data['Poste_bis']=='M']["Club"]
-                    #l=glob.glob("Maillots/"+list_club+".png")
-                    if tactique_M==3 :
-                        col1, col2, col3,col4,col5 = st.columns(5)
-                        with col2 :
-                            #st.write(local_D.iloc[0])
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                        with col3 :
-                            img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                            label=local_D.iloc[1]
-                            st.image(img,caption=label,width=80)
-                        with col4 :
-                            img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                            label=local_D.iloc[2]
-                            st.image(img,caption=label,width=80)    
-                    elif tactique_M==4:
-                        col1, col2, col3,col4 = st.columns(4)
-                        with col1 :
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                        with col2 :
-                            img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                            label=local_D.iloc[1]
-                            st.image(img,caption=label,width=80)
-                        with col3 :
-                            img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                            label=local_D.iloc[2]
-                            st.image(img,caption=label,width=80)
-                        with col4 :
-                            img=glob.glob(path_maillots+list_club.iloc[3]+".png")
-                            label=local_D.iloc[3]
-                            st.image(img,caption=label,width=80)
-                    else:
-                        col1, col2, col3,col4,col5 = st.columns(5)
-                        with col1 :
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                        with col2 :
-                            img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                            label=local_D.iloc[1]
-                            st.image(img,caption=label,width=80)
-                        with col3 :
-                            img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                            label=local_D.iloc[2]
-                            st.image(img,caption=label,width=80)
-                        with col4 :
-                            img=glob.glob(path_maillots+list_club.iloc[3]+".png")
-                            label=local_D.iloc[3]
-                            st.image(img,caption=label,width=80) 
-                        with col5 :
-                            img=glob.glob(path_maillots+list_club.iloc[4]+".png")
-                            label=local_D.iloc[4]
-                            st.image(img,caption=label,width=80) 
-                            
-                with st.container():#attaque
-                    local_D=data[data['Poste_bis']=='A']["Joueur"]
-                    list_club=data[data['Poste_bis']=='A']["Club"]
-                    #l=glob.glob("Maillots/"+list_club+".png")
-                    if tactique_A==3 :
-                        col1, col2, col3,col4,col5 = st.columns(5)
-                        with col2 :
-                            #st.write(local_D.iloc[0])
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                        with col3 :
-                            img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                            label=local_D.iloc[1]
-                            st.image(img,caption=label,width=80)
-                        with col4 :
-                            img=glob.glob(path_maillots+list_club.iloc[2]+".png")
-                            label=local_D.iloc[2]
-                            st.image(img,caption=label,width=80)    
-                    elif tactique_A==1 :
-                        col1, col2, col3,col4,col5 = st.columns(5)
-                        with col3 :
-                            #st.write(local_D.iloc[0])
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                    else:
-                        col1, col2, col3,col4,col5 = st.columns(5)
-                        with col2 :
-                            img=glob.glob(path_maillots+list_club.iloc[0]+".png")
-                            label=local_D.iloc[0]
-                            st.image(img,caption=label,width=80)
-                        with col4 :
-                            img=glob.glob(path_maillots+list_club.iloc[1]+".png")
-                            label=local_D.iloc[1]
-                            st.image(img,caption=label,width=80)
-                            
-                            
             ##############################   
              
             st.success("On siffle la fin de match, il n'y a plus qu'à lancer une nouvelle compétition MPG pour tester pour de vrai!")
