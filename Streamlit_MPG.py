@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 from streamlit_option_menu import option_menu
-import time
+# import time
 
 # Partie Machine Learning
 from sklearn.model_selection import train_test_split
@@ -41,14 +41,14 @@ l=glob.glob("media/maillots/*.png")
 path_maillots="media/maillots/"
 
 ##########################
-# Config favicon and title page
 
 st.set_page_config(
         page_title="Py Best Team",
         page_icon="⚽",
         layout="centered",
     )
-##########################
+
+###########################
 
 header = st.container()
 intro = st.container()
@@ -65,6 +65,7 @@ df_ml = pd.read_csv('data/MPG_df_final_ML.csv', sep=',', index_col='Unnamed: 0')
 # Création des DF avec les notes différentes de 0
 df_00      = df[df['Note'] != 0].sort_values('Journée', ascending=True) # DF global sans les notes moyennes à 0 (joueurs qui ne jouent jamais)
 df_00_jour = df[df['Note_Jour_Next']!=0].sort_values('Journée', ascending=True) # DF sans les notes journées à 0
+
 
 ################################################################################################################################################################################################################################
 ################################################################################################################################################################################################################################
@@ -101,13 +102,14 @@ with header:
 
 if choice == "Intro":
 	with intro:
-		col1, col2 = st.columns([1,2])
-		with col1:
-		    st.image('media/logo_mpg.png')
-		with col2:
-		    st.write("Ce projet est basé sur l'application de ''football fantasy'', **MonPetitGazon**. Elle permet de faire son mercato (choisir ses joueurs en début de saison), et de faire sa composition avant chaque journée. C'est sur ce dernier point que va se baser le reste du projet.")
+		st.markdown("<h5 style='text-align: center; color: black;'>&#9917; <u>PROJET :</u><br></h5>", unsafe_allow_html=True)
 
-		st.markdown("<h5 style='text-align: center; color: black;'>&#x1F3AF; <u>OBJECTIF :</u><br><br> Proposer des outils afin de choisir la meilleure équipe pour affronter votre adversaire au prochain match</h5>", unsafe_allow_html=True)
+		st.image('media/logo_ds_mpg.png')
+		st.write("")
+		st.write("###### Ce projet a été réalisé dans le cadre de la formation Data Analyst de [DataScientest.com](https://datascientest.com/). Il est basé sur l'application de ''football fantasy'', [MonPetitGazon](https://mpg.football/). Elle permet de faire son mercato (choisir ses joueurs en début de saison), et de faire sa composition avant chaque journée. C'est sur ce dernier point que va se baser le reste du projet.")
+
+		st.markdown("<h5 style='text-align: center; color: black;'>&#x1F3AF; <u>OBJECTIF :</u><br></h5>", unsafe_allow_html=True)
+		st.write("###### Proposer des outils afin de choisir la meilleure équipe pour affronter votre adversaire au prochain match")
 
 		st.markdown("<h5 style='text-align: center; color: black;'>&#x2B50; <u>LA TEAM</h5>", unsafe_allow_html=True)
 
@@ -176,7 +178,7 @@ elif choice == "Dataset":
 
             st.markdown("##### Voici un aperçu des traitements effectués :")
 
-            st.image("media/Sources_MPG.PNG")
+            st.image("media/Sources_MPG.png")
 
             
             st.write("Pour chacune des sources, les notions importantes permettant des rapprochement ont été identifiées : via les concepts de JOUEUR, JOURNEE et d'EQUIPE. Au niveau des informations collectées, nous avons cherché à déterminer le contexte des notes MPG au niveau de l'équipe et du joueur, ainsi que des métriques MPG comme le nombre de buts, la côte du joueur ou la note donnée par MPG.")
@@ -684,7 +686,7 @@ elif choice == "Machine learning":
 		st.write("Nous avons choisi de retenir le modèle **SVC** pour la suite des tests, étant celui qui obtenait les meilleurs scores bruts.") 
 		st.write("Voici les différentes étapes suivies pour tenter d'optimiser le modèle retenu :") 
 
-		st.image("media/tableau_features.PNG")
+		st.image("media/tableau_features.png")
 
 		st.markdown("<p style='color: black;'><b>Constats :</b></br>"
 					"<ol><li>Le modèle 'brut' conserve le meilleur score d'accuracy</li>"
@@ -696,6 +698,18 @@ elif choice == "Machine learning":
 
 		st.write("**CONCLUSION**") 
 		st.write("Les meilleures performances sont obtenues grâce à l'ajout des 3 hyperparamètres, sans besoin de modifier le jeu de données initial.") 
+
+		st.write("**IMPORTANCE DES FEATURES**") 
+		st.write("Enfin, une fois ce modèle optimal identifié, nous avons souhaité afficher le 'poids' de chacune des features dans l'algorithme. Nous avons utilisé la méthode _coef__, qui, par chance, fonctionne avec un kernel _**linear**_. Comme nous pouvons le constater sur le graphique à afficher ci-dessous, les features les plus importantes sont cohérentes avec la variable cible que nous souhaitions prédire :")
+		st.write("* **'Note'** bien sûr : note du joueur à l'issue de la journée passée")
+		st.write("* **'Variation'** : écart-type de la note, correspondant à la régularité du joueur à travers la saison")
+		st.write("* **'Match_noté'** : nombre de match joués par le joueur")
+		st.write("* **'Rolling_Note_J'** : note 'roulante' du joueur après les 5 dernières journées")
+
+		with st.expander("Afficher le graphique des coefficients de chaque feature"):
+			st.image("media/charts/feature_importance.png")
+
+
 
 
 		##############################
@@ -2080,6 +2094,8 @@ elif choice == "Outils MPG":
                             
             ##############################
             
+                            
+                            
             ##############################   
              
             st.success("On siffle la fin de match, il n'y a plus qu'à lancer une nouvelle compétition MPG pour tester pour de vrai!")
