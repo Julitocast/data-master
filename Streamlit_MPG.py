@@ -686,7 +686,7 @@ elif choice == "Machine learning":
 		st.write("Nous avons choisi de retenir le modèle **SVC** pour la suite des tests, étant celui qui obtenait les meilleurs scores bruts.") 
 		st.write("Voici les différentes étapes suivies pour tenter d'optimiser le modèle retenu :") 
 
-		st.image("media/tableau_features.png")
+		st.image("media/tableau_features.PNG")
 
 		st.markdown("<p style='color: black;'><b>Constats :</b></br>"
 					"<ol><li>Le modèle 'brut' conserve le meilleur score d'accuracy</li>"
