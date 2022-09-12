@@ -690,10 +690,9 @@ elif choice == "Machine learning":
 
 		st.markdown("<p style='color: black;'><b>Constats :</b></br>"
 					"<ol><li>Le modèle 'brut' conserve le meilleur score d'accuracy</li>"
-					"<li>Tous les tests ont permsi d'améliorer nettement le F1 de la classe 3</li>"
+					"<li>Tous les tests ont permis d'améliorer nettement le F1 de la classe 3</li>"
 					"<li>L'ajout des 3 hyperparamètres permet de conserver un score correct et d'améliorer fortement le F1</li>"
 					"<li>Les tests de feature engineering ont donné de bons résultats, mais qui restaient moins significatifs </li>"
-					"<li>SVC</li>"
 					"</ol>", unsafe_allow_html=True)
 
 		st.write("**CONCLUSION**") 
